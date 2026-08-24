@@ -1,0 +1,148 @@
+・パッケージ：異なる"モジュール"が複数集まったコード群を"パッケージ"と言います。
+・モジュール：.pyファイル（pythonのプログラムコードのこと）で、"クラス"と"関数"などが書かれています。
+・関数：ある程度の処理をまとめたものです。たとえば、100回足し算する関数や箱の3辺長さから体積を出す関数などです。
+・クラス："メソッド"を集めてひと固まりのグループにしたものを"クラス"と言います。
+・インスタンス：クラスに対して、実際に処理する対象を与えたものです。
+・メソッド："クラス"内で定義された関数のことです。
+・クラスとはオブジェクトの処理を一つにまとめたもの
+・インスタンスはクラスの実体化
+
+・コンストラクタは、オブジェクト生成時に最初に実行される、「初期化用の特殊な関数」のことです。
+  Pythonでは、コンストラクタは、「_init_（）」という名前で定義するのがルールです。
+
+・コンストラクタを呼び出すことで、当該のクラスのオブジェクト（「インスタンス」とも呼ぶ）を生成できます。
+  コンストラクタは、この生成時に1度だけ実行されます。
+
+・コンストラクタの第1引数には、「self」を指定します。「self」は、コンストラクタによって生成されるオブジェクト自身を示しています。
+・コンストラクタを呼び出す際には第1引数を指定する必要はなく、第2引数から記述します。
+
+
+・
+  書式：クラス変数へのアクセス(クラス外)
+
+  クラス外からインスタンス変数へアクセスする方法は「インスタンス名(インスタンスが格納された変数)」の後に
+  「.」をつけてアクセスしたいインスタンス変数を記述します。
+
+  「インスタンス名.インタンス変数」
+
+
+  1 class Sample:
+  2 def __init__(self,name):
+  3          self.name = name # name が インタンス変数
+  4   
+  5  #インスタンスの生成
+  6  sample1 = Sample("田中") # sample1 が インスタンス名
+  7  sample2 = Sample("加藤")
+  8   
+  9  #インスタンス変数の呼び出し
+  10  print('sample1：',sample1.name)
+  11  print('sample2：',sample2.name)
+
+  書式：クラス変数へのアクセス(クラス内)
+
+  1  class クラス名:
+  2   
+  3      def __init__(self,引数①,引数②,…):
+  4          self.インスタンス変数① = 引数①   #インスタンス変数と引数は同じ値（名前）が入る
+  5          self.インスタンス変数② = 引数②
+  6          …
+  7      def メソッド名(self)
+  8          print(self.インスタンス変数①)
+  9          print(self.インスタンス変数②)
+
+
+
+
+render_template を使い　html　は　templatesフォルダ配下に保存する。
+css　や　Javascript　は、static　フォルダ配下に配置して、html側で対処
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" media="all" />
+　
+
+C:\Users\fj7067av\アプリ\python\Scripts\pip install flask-admin
+
+pip install Flask-SQLAlchemy==2.5.1
+pip install SQLAlchemy==1.4.41
+
+
+HTTPメソッドについて
+HTTP ver1.1でのメソッド一覧は以下の通りです．
+
+GET
+URIで指定した情報を要求する．
+URIがファイル名の場合はそのファイルの中身を，プログラム名の場合はプログラムの出力を返す．
+
+HEAD
+GETと同様の処理だが，HTTPヘッダのみを返す．
+
+POST
+クライアントからデータを（名前と値)のセットで渡す．
+使用例：フォームデータを送る時
+
+OPTIONS
+通信オプションの通知等．
+
+TRACE
+サーバが受け取った要求行とヘッダ行をそのまま送り返す．
+
+DELETE
+URIで指定したサーバ上のファイルを削除する．
+
+PUT
+URIで指定したサーバ上のファイルを置き換える．
+
+PATCH （Appendix）
+PUTと同様の処理だが，差分のみを置き換える
+
+LINK （Appendix）
+他の情報との関連付けを行う．
+
+UNLINK （Appendix）
+LINKで設定した関連を外す．
+
+仕様がAppendixのものは正式に定義されているものではないです．
+今回の記事はGET, POST, PUT, DELETEについて実装をまとめます．
+
+
+sessionは辞書型のように扱います。
+
+session["id"] = user
+sessionに情報を格納する
+
+id=session["id"]
+sessionから情報を取得する
+
+
+
+            user = request.form.get("id") # 入力値の取得
+            session["id"] = user 
+            id=session["id"]
+            print('ID = ' + id)
+
+.first()  # 先頭１件を返す
+
+session['username'] = request.form['username']
+
+
+
+●末尾に追記する環境変数を設定するコマンド
+SET PATH=%PATH%;C:\Users\fj7067av\soft\sqlite3;C:\Users\fj7067av\soft\python-embed;C:\Users\fj7067av\soft\python-embed\Scripts
+
+ECHO %PATH%
+
+where sqlite3
+where python
+where pip
+
+cd C:\Users\fj7067av\soft\attendance
+
+python auth.py
+python index.py
+
+
+
+
+
+
+
+

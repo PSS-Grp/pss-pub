@@ -1,0 +1,14 @@
+@ECHO off
+
+SET PATH=%PATH%;C:\Users\fj7067av\soft\sqlite3;C:\Users\fj7067av\soft\python-embed;C:\Users\fj7067av\soft\python-embed\Scripts
+
+ECHO %PATH%
+
+where sqlite3
+where python
+where pip
+
+cd C:\Users\fj7067av\soft\attendance
+
+python auth.py
+python index.py

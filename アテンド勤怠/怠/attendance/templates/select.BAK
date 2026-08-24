@@ -1,0 +1,31 @@
+<!-- コメントはこのように書きます -->
+
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>{{title}}</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" media="all" />
+  </head>
+
+    <body>
+
+      <form method="POST" action=/select >
+
+        <div id="frame">
+          <p class="frame-title">{{user_name}} さん<br />本日最初の勤務を選んで下さい</p>
+          <p class="select-submit">
+<!--        <input type="submit" id="select-honso" name="honso-tsuya" value="本 葬"> -->
+            <input type="submit" id="select-tsuya" name="honso-tsuya" value="通 夜">
+<!--        <button type="button" onclick="location.href='./time_stamp.html'">本 葬</button> -->
+            <button type="submit"id="select-honso" name="honso-tsuya">本 葬</button>
+          </p>
+        </div>
+
+          <p style="color: gray;text-align: right">{{today}}/{{number}}</p>
+      </form>
+
+
+    </body>
+
+</html>

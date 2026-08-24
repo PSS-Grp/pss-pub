@@ -1,0 +1,17 @@
+from flask import Flask, render_template
+
+print(__name__)
+app = Flask(__name__)
+
+#tamplatesからhtmlを読み込む
+#@app.route("/", methods==['GET','POST'] )
+@app.route("/" )
+def login_page():
+    return render_template('index.html')
+
+@app.route("/login")
+def input_page():
+    return '勤怠入力'
+
+if __name__ == "__main__":
+    app.run(host='attendance.pss.local',debug=True)

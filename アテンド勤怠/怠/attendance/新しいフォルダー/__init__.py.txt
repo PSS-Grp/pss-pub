@@ -1,0 +1,39 @@
+# Flask モジュールのインポート
+------------------------------------------------
+from flask import Flask, render_template, request, redirect
+
+# データベースを利用するためのモジュールのインポート
+------------------------------------------------
+from flask_sqlalchemy import SQLAlchemy
+
+# データベース管理画面を利用するためのモジュールのインポート
+------------------------------------------------
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
+
+# Flask モジュールを(__name__)でモジュール指定してアプリの生成
+------------------------------------------------
+app = Flask(__name__)
+ 
+
+# DBの指定 mysql
+------------------------------------------------
+app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+pymysql://{user}:{password}@{host}/{db_name}?charset=utf8'.format(**{
+      'user': "pss",
+      'password': "hujiko0-",
+      'host': "localhost",
+      'db_name': "attend_db"
+  })
+
+#sessionを使う際にSECRET_KEYを設定
+------------------------------------------------
+app.config['SECRET_KEY'] = 'secret_key'
+
+
+# おまじない
+------------------------------------------------
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+
+# dbの初期化
+------------------------------------------------
+db = SQLAlchemy(app)
