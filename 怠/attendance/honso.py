@@ -11,9 +11,26 @@ from __init__ import app ,db ,login_manager ,today
 from flask import Flask, request, render_template, redirect, flash, session 
 from flask_login import login_required, login_user, current_user
 
-from models import User, Time
+from models import User, Time, Place
 # from models import LoginForm, User ,
 from werkzeug.security import generate_password_hash, check_password_hash
+
+
+#------------------------------------------------
+# [追加] ログイン中のユーザーに紐づく会館名の一覧を取得するヘルパー。
+# Place.user_id が current_user.id と一致する行、またはuser_idが
+# 未設定（全ユーザー共通）の行を、登録順で返す。
+# 「その他」は一覧には含めず、テンプレート側で常に末尾に固定表示する。
+#------------------------------------------------
+def get_places_for_current_user():
+    return [
+        p.place
+        for p in Place.query.filter(
+            (Place.user_id == current_user.id) | (Place.user_id.is_(None))
+        )
+        .order_by(Place.id)
+        .all()
+    ]
 
 #------------------------------------------------
 # DB 管理ページ  # データベース管理画面のモジュール(admin.py)の読み込み
@@ -117,10 +134,11 @@ def honso_stamp():
                                express1=express1, 
                                other1=other1 )  # パラメータをinit_view.htmlに送る
 
-    return render_template('honso_stamp.html', 
-                            title="本葬出勤入力", 
-                            today=today, 
-                            start1=start1, 
+    return render_template('honso_stamp.html',
+                            title="本葬出勤入力",
+                            today=today,
+                            places=get_places_for_current_user(),
+                            start1=start1,
                             end1=end1, 
                             leader1=leader1, 
                             subleader1=subleader1, 

@@ -44,6 +44,17 @@ today = on_time.date()
 
 
 #------------------------------------------------
+# トップページ
+# [修正] "/" にルートが無く、Colabの埋め込み表示やブラウザで
+# ルートURLを開くと404 (Not Found) になっていたため、/login へ
+# リダイレクトするルートを追加した。
+#------------------------------------------------
+@app.route('/')
+def root():
+    return redirect('/login')
+
+
+#------------------------------------------------
 # ログインページ
 #------------------------------------------------
 @app.route('/login', methods=['GET', 'POST'])
@@ -60,6 +71,14 @@ def login():
              login_user(user_check)
              session['user_number'] = user_check.number
              session['user_name'] = user_check.username
+
+             # [追加] 管理者アカウント（is_admin=True）でログインした場合は
+             # 出退勤画面(/judge)ではなく、データベース管理画面へ直接遷移させる。
+             # 遷移先は /admin/ （中身が空の「Home」画面。ナビからも非表示にした）
+             # ではなく、実際にデータが見える /admin/user/ にしている。
+             if getattr(user_check, "is_admin", False):
+                return redirect('/admin/user/')
+
              return redirect('/judge')
 
           else:

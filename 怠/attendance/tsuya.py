@@ -11,9 +11,25 @@ from __init__ import app ,db ,login_manager ,today
 from flask import Flask, request, render_template, redirect, flash, session 
 from flask_login import login_required, login_user, current_user
 
-from models import User, Time
+from models import User, Time, Place
 # from models import LoginForm, User ,
 from werkzeug.security import generate_password_hash, check_password_hash
+
+
+#------------------------------------------------
+# [追加] ログイン中のユーザーに紐づく会館名の一覧を取得するヘルパー。
+# honso.py 側と同じロジック（重複しているが、既存ファイル構成を
+# 大きく変えないよう、あえてそれぞれのファイルに置いている）。
+#------------------------------------------------
+def get_places_for_current_user():
+    return [
+        p.place
+        for p in Place.query.filter(
+            (Place.user_id == current_user.id) | (Place.user_id.is_(None))
+        )
+        .order_by(Place.id)
+        .all()
+    ]
 
 #------------------------------------------------
 # DB 管理ページ  # データベース管理画面のモジュール(admin.py)の読み込み
@@ -131,7 +147,8 @@ def tsuya_stamp():
           record_id = session['record_id']              #sessionからユーザー情報を取得
 
           modify_record = Time.query.filter(Time.id == record_id).one() # レコードを上書き
-          modify_record.date=record_id
+          # [修正] 元コードは modify_record.date=record_id という誤代入の直後に
+          # modify_record.date=today で上書きしており無意味だったため削除。
           modify_record.date=today
           modify_record.number=session['user_number']
           modify_record.place2=place2
@@ -177,10 +194,11 @@ def tsuya_stamp():
                                   express2=express2, 
                                   other2=other2 )  # パラメータをinit_view.htmlに送る
 
-    return render_template('tsuya_stamp.html', 
-                            title="通夜出勤入力", 
-                            today=today, 
-                            start2=start2, 
+    return render_template('tsuya_stamp.html',
+                            title="通夜出勤入力",
+                            today=today,
+                            places=get_places_for_current_user(),
+                            start2=start2,
                             end2=end2, 
                             leader2=leader2, 
                             subleader2=subleader2, 

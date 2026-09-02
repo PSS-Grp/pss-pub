@@ -42,6 +42,10 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(30), nullable=False, unique=True)
     number = db.Column(db.String(8), nullable=False, unique=True)
     password = db.Column(db.String(256), nullable=False)
+    # [追加] データベース管理画面(/admin)にアクセスできるかどうかを表すフラグ。
+    # 一般の従業員アカウントではFalseのままにし、管理者専用アカウントだけ
+    # Trueにすることで、出退勤ログインと管理者アクセスを区別する。
+    is_admin = db.Column(db.Boolean, nullable=False, default=False, server_default="0")
 
 
 #------------------------------------------------
@@ -116,10 +120,21 @@ class Time(db.Model):
 
 
 class Place(db.Model):
+    # [修正/追加]
+    # ・元々このモデルは定義されているだけで、どこからも使われていなかった。
+    #   これを使って「会館名」を一般ユーザーごとに変えられるようにした。
+    # ・user_id を追加し、どのユーザーに表示する会館かを紐づけられるようにした。
+    #   （user_idがNULLの行は、全ユーザー共通の会館として扱う）
+    # ・company/area/place の文字数上限が10文字と短く、実際の会館名
+    #   （例:「愛知葬祭 春日井会場」で10文字ちょうど）だと収まらないケースが
+    #   あったため、余裕を持たせて100文字に広げた。
 
     __tablename__ = "Place"
     id = db.Column(db.Integer, primary_key=True)
-    company = db.Column(db.String(10))
-    area = db.Column(db.String(10))
-    place = db.Column(db.String(10))
-    other = db.Column(db.String(10))
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
+    company = db.Column(db.String(100))
+    area = db.Column(db.String(100))
+    place = db.Column(db.String(100), nullable=False)
+    other = db.Column(db.String(100))
+
+    user = db.relationship("User", backref=db.backref("places", lazy="dynamic"))

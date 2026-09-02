@@ -29,15 +29,15 @@
               <p class="select">会館　</p>
             </td>
             <td>  
+                <!-- [修正] 会館名の一覧を全ユーザー共通の固定リストから、
+                     ログイン中のユーザーごとに異なる一覧（places, honso.pyのget_places_for_current_userで取得）
+                     を表示するように変更。「その他」は従来通り末尾に固定で残し、
+                     手動入力(other1)も引き続き使えるようにしている。 -->
                 <select id="place1" name="place1" required>
                   <option value="" disabled selected>選択してください。</option>
-                  <option>愛知葬祭 春日井会場</option>
-                  <option>平安会館 一宮斎場</option>
-                  <option>項目4</option>
-                  <option>項目5</option>
-                  <option>項目6</option>
-                  <option>項目7</option>
-                  <option>項目8</option>
+                  {% for p in places %}
+                  <option>{{ p }}</option>
+                  {% endfor %}
                   <option>その他</option>
                 </select>
             </td>
